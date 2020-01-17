@@ -7,9 +7,14 @@ public class WriterEx1 {
 
 	public static void main(String[] args) throws Exception {
 		
-		Writer fw = new FileWriter("lionking.txt");
+		Writer fw = new FileWriter("output.txt");
 		
-		fw.write('한');
+		//세로줄 \n
+		fw.write(new char[] {'한','글','날','\n','만','세'});
+		
+		
+		
+		
 		fw.close();
 		
 	}
