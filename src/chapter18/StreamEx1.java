@@ -10,11 +10,10 @@ import java.io.Reader;
 import java.io.Writer;
 
 public class StreamEx1 {
-
 	public static void main(String[] args) throws Exception {
-		
-		InputStream fis = new FileInputStream("Lionking.txt");
-		OutputStream fos = new FileOutputStream("Lionking.txt");
+		//많이 사용되는 InputStream,OutputStream, Reader,Writer 4가지
+		InputStream fis = new FileInputStream("lionking.txt");
+		OutputStream fos = new FileOutputStream("aaaa.txt");
 		
 		Reader fr = new FileReader("lionking.txt");
 		Writer fw = new FileWriter("bbbb.txt");
@@ -22,12 +21,16 @@ public class StreamEx1 {
 		fis.close();
 		fos.close();
 		
-		
-		
-		
+		fr.close();
+		fw.close();
 	}
-	
-		
-	
-	
 }
+
+
+
+
+
+
+
+
+
