@@ -1,4 +1,4 @@
-package chapter18;
+package myGameProjcet;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +14,7 @@ public class UserInputEx1 {
 	public static void main(String[] args) throws Exception {
 		Scanner scanner = new Scanner(System.in);
 		Reader fr = new FileReader("user.txt");
-		List<String> accountlist = new ArrayList<>();
+		List<GameAccount> accountlist = new ArrayList<>();
 		
 		String user = null;
 		boolean run = true;
@@ -40,14 +40,14 @@ public class UserInputEx1 {
 			//,로 쪼개기
 			String account[] =  str.split(",");
 			// ,기준 왼쪽 문자열 accountlist배열에 add시키기
-			accountlist.add(account[0]);
+			accountlist.add(new GameAccount(account[0],account[0]));
 			str = br.readLine(); //null일때까지 계속 읽어오기
 		
 		}
 
 		
 		System.out.println(accountlist.size());
-		System.out.println(accountlist.get(2)); //ID만 뽑아오기
+		System.out.println(accountlist.get(accountlist)); //ID만 뽑아오기
 		
 		
 		//read메서드로 리턴값이 -1이 나올때까지 루핑
