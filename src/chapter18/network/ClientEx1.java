@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientEx1 {
 
@@ -15,15 +16,18 @@ public class ClientEx1 {
 		System.out.println("연결완료");
 		
 		
+		Scanner scanner = new Scanner(System.in);
+		
 		OutputStream os =  socket.getOutputStream();
 		PrintStream ps = new PrintStream(os);
 		
-		
-		for(int i = 0; i<10; i++) {
-			ps.println("메세지 보냄" + i);
+		String message = null;
+		while(!(message = scanner.nextLine()).equals("exit")){
+			
+			ps.println("발신]" + message);
 			
 		}
-		
+		ps.println("종료");
 		
 		
 		

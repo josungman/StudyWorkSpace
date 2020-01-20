@@ -20,8 +20,6 @@ public class ServerEx1 {
 		System.out.println("연결 기다림");
 		Socket socket = server.accept();
 		
-	
-		
 		// 클라이언트로 부터 라인 단위 (BufferedReader) 받는다.
 		
 		InputStream is  = socket.getInputStream();
@@ -31,7 +29,7 @@ public class ServerEx1 {
 		
 		String line = null;
 		
-		for (int i = 0; i< 10 ; i++) {
+		while(!(line = br.readLine()).equals("exit")) {
 			line = br.readLine();
 			System.out.println("[수신]" + line);
 			
