@@ -64,7 +64,7 @@ public class thief extends Hero { // 도적
 
 	@Override
 	void Attach() {
-		System.out.println("도적의 공격 : 럭키세븐!!");
+		System.out.println("● 공격발동 : 럭키세븐🤘‍🤘");
 	}
 
 }

@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class RPG {
 
-	// 캐릭터 참조변수
+	// 캐릭터 클래스 참조변수
 	static Hero User = null;
-	// 몬스터
+	// 클래스 몬스터
 	static Monster GameMonster = null;
 
 	// 계정 (클래스 인스턴스 생성할때 앞에 이미 형식을 지정한상태라 메서드 안에서 클래스 변수를 붙이지 마라.)
@@ -25,13 +25,15 @@ public class RPG {
 	static void page1() {// 페이지1(첫 시작)
 
 		while (run) {
-
-			System.out.println("==============RPG=============");
-			System.out.println("1.새로시작 | 2.불러오기 3.종료");
-			System.out.println("==============================");
-
-			System.out.print("선택>>");
+			System.out.println();
+			System.out.println("============= Heros Adventure ==============");
+			System.out.println();
+			System.out.println("(1).새로시작 || (2).불러오기 || (3).종료하기");
+			System.out.println();
+			System.out.println("============================================");
+			System.out.print("선택(👉)");
 			int input = scan.nextInt();
+			System.out.println();
 
 			switch (input) {
 			case 1:
@@ -41,67 +43,68 @@ public class RPG {
 				break;
 			case 2:
 				// 새로시작시 page3로 넘어가기
-
+				page3();
 				break;
 			case 3:
-				// 프로그램 종료
-				System.out.println("프로그램이 종료 되었습니다.");
-				System.exit(0);
+
+				exitApp(); // 종료하기
+
 			}
 
 		}
 
 	}
 
+	static void page3() {// 페이지3(영웅 불러오기)
+
+		try {
+			UserLoad.account();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+	}
+
 	static void page2() {// 페이지2(영웅선택 및 회원가입)
 		run = true;
 
 		while (run) {
-			System.out.println("=====first Page====");
-			System.out.println("1.영웅선택 | 2.종료");
-			System.out.println("===================");
-			System.out.print("선택>>");
-			int input = scan.nextInt();
 
-			switch (input) {
-			case 1:
-				System.out.println("==========Hero==========");
-				System.out.println("1.전사 | 2.법사 | 3.도적");
-				System.out.println("========================");
+			System.out.println("================= Hero Select ===============");
+			System.out.println();
+			System.out.println("(1).전사 || (2).법사 || (3).도적 || (4).종료");
+			System.out.println();
+			System.out.println("=============================================");
 
-				System.out.print("선택>>");
-				int input2 = scan.nextInt();
+			System.out.print("선택(👉)");
+			int input2 = scan.nextInt();
+			System.out.println();
 
-				// 영웅 객체 (클래스 참조변수로 가져옴)
-				if (input2 == 1) {
-					User = new Warrior();
-				} else if (input2 == 2) {
-					User = new Wizard();
-				} else if (input2 == 3) {
-					User = new thief();
-				}
-
-				System.out.println(User.getName());
-				System.out.println("영웅이 선택되었습니다.");
-
-				// 파일 읽어오기를 통한 ID 비번 저장
-				System.out.print("ID입력>>");
-				ID = scan.next();
-
-				System.out.print("비번입력>>");
-				PW = scan.next();
-
-				System.out.println("캐릭터가 정상적으로 만들어졌습니다.");
-
-				run = false;
-				GamePage();
-				break;
-
-			case 2:
-				// 프로그램 종료
-				System.out.println("프로그램이 종료 되었습니다.");
-				System.exit(0);
+			// 영웅 객체 (클래스 참조변수로 가져옴)
+			if (input2 == 1) {
+				User = new Warrior();
+			} else if (input2 == 2) {
+				User = new Wizard();
+			} else if (input2 == 3) {
+				User = new thief();
+			} else if (input2 == 4) {
+				exitApp();
 			}
+
+			System.out.println();
+			System.out.println("    ======== " + User.getName() + " 영웅이 선택되었습니다. ======== ");
+			System.out.println();
+
+			// 파일 읽어오기를 통한 ID 비번 저장
+			try {
+				UserAdd.account();
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			run = false;
+			break;
 
 		}
 
@@ -110,22 +113,27 @@ public class RPG {
 	static void GamePage() {// 게임실행페이지
 		run = true;
 		while (run) {
-			System.out.println("=====================Town=========================");
-			System.out.println("1.영웅정보 | 2.던전탐험 | 3.상점 | 4.저장 | 5.종료");
-			System.out.println("==================================================");
-			System.out.print("선택>>");
+			System.out.println("====================Heors Town=====================");
+			System.out.println();
+			System.out.println("1.정보 || 2.던전 || 3.강화&포션 || 4.기록 || 5.종료");
+			System.out.println();
+			System.out.println("===================================================");
+			System.out.print("선택(👉)");
 			int input = scan.nextInt();
+
+			System.out.println();
 
 			switch (input) {
 			case 1:
 				// 영웅 정보 구현
-				System.out.println("======" + ID + "======");
-				System.out.println("직업 : " + User.getName());
-				System.out.println("체력 : " + User.getHP());
-				System.out.println("빠워 : " + User.getPower());
-				System.out.println("지능 : " + User.getIntt());
-				System.out.println("민첩 : " + User.getDex());
-				System.out.println("자산 : " + User.getMoney() + " 원");
+				System.out.println("============= ● " + ID + "님 Status ● ==========");
+				System.out.println(" ● Class : " + User.getName());
+				System.out.println();
+				System.out.println(" ● H.P : " + User.getHP());
+				System.out.println(" ● Pow : " + User.getPower());
+				System.out.println(" ● Int : " + User.getIntt());
+				System.out.println(" ● Dex : " + User.getDex());
+				System.out.println(" ● Money : " + User.getMoney() + "(Won)");
 
 				break;
 			case 2:
@@ -140,10 +148,15 @@ public class RPG {
 				break;
 			case 4:
 				// 저장 기능 구현
+				try {
+					UserSave.account();
+				} catch (Exception e) {
+
+					e.printStackTrace();
+				}
 				break;
 			case 5:
-				System.out.println("프로그램이 종료 되었습니다.");
-				System.exit(0);
+				exitApp();
 				break;
 			}
 
@@ -208,7 +221,7 @@ public class RPG {
 						break;
 					case 2: // 마법사 전용 무기 구현
 
-						if (User.getName() == "마법사") {
+						if (User.getName() == "법사") {
 
 							// 무기 살돈이 있는지 확인
 							if (User.getMoney() >= 100) {
@@ -387,10 +400,6 @@ public class RPG {
 
 		// 몬스터 구현(던전에 따라 다르게)
 
-		
-		
-		
-		
 		// 박쥐 몬스터로 Test
 		GameMonster = new Bat();
 
@@ -422,7 +431,7 @@ public class RPG {
 					pointminus -= 1;
 					User.setPower(pointminus);
 
-				} else if (User.getName() == "마법사") {
+				} else if (User.getName() == "법사") {
 
 					int pointminus = User.getPower();
 					pointminus -= 1;
@@ -462,7 +471,7 @@ public class RPG {
 					GameMonster.setHP(MonsterHP);
 					System.out.println(GameMonster.getName() + "한테 " + User.getPower() + " 타격을 입혔다.");
 
-				} else if (User.getName() == "마법사") {
+				} else if (User.getName() == "법사") {
 
 					MonsterHP -= User.getIntt();
 					GameMonster.setHP(MonsterHP);
@@ -493,7 +502,18 @@ public class RPG {
 
 				break;
 			case 2: // 특수공격 구현
-
+//wefwefweffewfewwfefwe
+				if(User.getName() == "전사") {
+					
+					int UserMoney =- User.getMoney() - 8;
+					
+					if 
+//wefwefweffewfewwfefwe
+					System.out.println("갑옷두르기");
+				}
+				
+				
+				
 				break;
 			case 3: // 도망갈 확률 반반
 				int random = (int) (Math.random() * 2) + 1;
@@ -510,5 +530,12 @@ public class RPG {
 
 			}
 		}
+	}
+
+	private static void exitApp() {
+		// 프로그램 종료
+		System.out.println();
+		System.out.println("=============Shut down App==============");
+		System.exit(0);
 	}
 }

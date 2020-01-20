@@ -28,7 +28,7 @@ public class Wizard extends Hero {
 
 
 	private int HP = 100;
-	private String name = "마법사";
+	private String name = "법사";
 	
 	
 	public String getName() {
@@ -69,7 +69,7 @@ public class Wizard extends Hero {
 	
 	@Override
 	void Attach() {
-		System.out.println("법사의 공격 : 매직클로!!");
+		System.out.println("● 공격발동 : 매직클로🙏‍🙏");
 	}
 
 	
