@@ -11,6 +11,7 @@ public class ServerExample {
 		ServerSocket serverSocket = new ServerSocket();
 		serverSocket.bind(new InetSocketAddress("211.183.2.21", 5001));
 		
+		//파일 전송 소켓 통신
 		System.out.println("[서버 시작]");
 		
 		while (true) {

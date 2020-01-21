@@ -7,6 +7,8 @@ import java.net.Socket;
 
 public class ClientExample {
 	public static void main(String[] args) throws Exception {
+		
+		//File전송
 		Socket socket = new Socket("211.183.2.21", 5001);
 		OutputStream os = socket.getOutputStream();
 		
