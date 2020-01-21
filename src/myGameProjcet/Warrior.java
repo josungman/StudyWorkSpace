@@ -7,7 +7,8 @@ public class Warrior extends Hero {
 	private int dex = 0;
 	private int HP = 100;
 	private int Money = 1000;
-	
+	public static int warriorand; // 패시브 스킬
+
 	public int getMoney() {
 		return Money;
 	}
@@ -16,7 +17,7 @@ public class Warrior extends Hero {
 		if (money >= 0) {
 			this.Money = money;
 		}
-		
+
 	}
 
 	public int getHP() {
@@ -28,7 +29,7 @@ public class Warrior extends Hero {
 	}
 
 	private String name = "전사";
-	
+
 	public int getPower() {
 		return power;
 	}
@@ -41,9 +42,9 @@ public class Warrior extends Hero {
 		this.name = name;
 	}
 
-	public void setPower(int power) {//능력치 최소 보장
-		if(power >=2 ){
-		this.power = power;
+	public void setPower(int power) {// 능력치 최소 보장
+		if (power >= 2) {
+			this.power = power;
 		}
 	}
 
@@ -52,10 +53,9 @@ public class Warrior extends Hero {
 	}
 
 	public void setIntt(int intt) {
-		
-			this.intt = intt;
-		
-		
+
+		this.intt = intt;
+
 	}
 
 	public int getDex() {
@@ -68,17 +68,15 @@ public class Warrior extends Hero {
 
 	@Override
 	void Attach() {
-		int rand;
-		rand = (int) (Math.random()*5)+1;
-		
-		if(rand == 1) {//패시브 스킬 크리티컬 5분의 1확률
-			int rage = getPower()*2;
-			setPower(rage);
+
+		warriorand = (int) (Math.random() * 2) + 1;
+
+		if (warriorand == 1) {// 패시브 스킬 크리티컬 5분의 1확률
 			System.out.println("● 공격발동(패시브) : 격노🏃‍♀️🏃‍♀️");
-		}else {
+		} else {
 			System.out.println("● 공격발동 : 휘두르기🏃‍♀️🏃‍♀️");
 		}
-		
+
 	}
 
 }

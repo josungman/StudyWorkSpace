@@ -27,7 +27,7 @@ public class Wizard extends Hero {
 	}
 
 
-	private int HP = 100;
+	private int HP = 80;
 	private String name = "법사";
 	
 	
