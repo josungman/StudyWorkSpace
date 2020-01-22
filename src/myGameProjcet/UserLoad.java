@@ -106,7 +106,9 @@ public class UserLoad {
 		if (idpwcheck == true)
 
 		{
-			System.out.println("◈"+RPG.ID + "님 환영합니다^^◈");
+			System.out.println();
+			System.out.println("◈ "+RPG.ID + "님 환영합니다^^ ◈");
+			System.out.println();
 			RPG.GamePage(); // 게임 페이지로
 		} else {
 			System.out.println("입력한 User 정보가 없거나 Pw가 일치하지 않습니다.");
