@@ -1,10 +1,16 @@
 package myGameProjcet;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,8 +31,11 @@ public class UserAdd {
 
 		// BufferedReader 클래스를 사용하면 readLine메서드로 한줄씩 읽어올 수 있다.
 		// BufferedReader 클래스 알아보기
-		BufferedReader br = new BufferedReader(new FileReader(new File("user.txt")));
+		//BufferedReader br = new BufferedReader(new FileReader(new File("user.txt")));
 
+		File file    =  new File("user.txt");
+		BufferedReader br  =  new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
+		
 		// readline 메서드를 바깥에서 한번 진행
 		// 첫번째값은 무조건 있어야됨
 		str = br.readLine();
@@ -41,7 +50,7 @@ public class UserAdd {
 
 		}
 		int Usercnt = accountlist.size();
-		System.out.println("(현제 회원 수는 " + (Usercnt - 1) + "명 이며 사용할 ID,PW를 입력하세요.)");
+		System.out.println("(현제 회원 수는 " + (Usercnt) + "명 이며 사용할 ID,PW를 입력하세요.)");
 
 		// Map.Entry로 ID,비번 나누기 (getKey,getValue)
 		Set<Map.Entry<String, String>> entries = accountlist.entrySet();
@@ -50,8 +59,19 @@ public class UserAdd {
 		System.out.println();
 
 		// Writer로 user.txt에 이어쓰기
-		FileWriter fw = new FileWriter("user.txt", true);
+		//FileWriter fw = new FileWriter("user.txt", true);
 
+		FileOutputStream fos = new FileOutputStream("user.txt",true);
+		OutputStreamWriter ows = new OutputStreamWriter(fos,"UTF-8");
+		BufferedWriter fw = new BufferedWriter(ows);
+//		Writer fw = new BufferedWriter(new OutputStreamWriter(
+//			    new FileOutputStream("user.txt",true), "UTF-8"));
+			try {
+			    
+			} finally {
+			    
+			}
+		
 		boolean IDcheck = false;
 
 		System.out.print("1.사용하실 ID를 입력해주세요▶");
@@ -84,6 +104,8 @@ public class UserAdd {
 			System.out.println();
 			System.out.println("◈계정 생성이 완료 되었습니다◈");
 			System.out.println();
+			
+			RPG.Sound("UserLogin.wav", false); //로그인 사운드
 			
 			// 기본 능력치 User파일에 입력
 			String AddUserInfo = "";

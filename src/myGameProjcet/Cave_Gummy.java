@@ -1,6 +1,6 @@
 package myGameProjcet;
 
-public class Gummy extends Monster {
+public class Cave_Gummy extends Monster {
 
 	private String name = "동굴거미";
 	private int dropMoney;
@@ -15,6 +15,7 @@ public class Gummy extends Monster {
 		Attackname = attackname;
 	}
 	public int getAttacknum() {
+		RPG.Sound("Bat.wav", false); //사운드
 		return Attacknum;
 	}
 	public void setAttacknum(int attacknum) {
@@ -27,6 +28,7 @@ public class Gummy extends Monster {
 		this.name = name;
 	}
 	public int getDropMoney() {//1원에서 8원 사이 머니 드롭
+		RPG.Sound("MoneyDrop.wav", false);
 		int dropMoney = (int) (Math.random()*8)+1;
 		return dropMoney;
 	}

@@ -69,7 +69,8 @@ public class Wizard extends Hero {
 	
 	@Override
 	void Attach() {
-		System.out.println("● 공격발동 : 매직클로🙏‍🙏");
+		RPG.Sound("WizardAtt.wav", false);
+		System.out.println("● 공격발동 : 매직클로＠＠");
 	}
 
 	

@@ -5,7 +5,7 @@ public class thief extends Hero { // 도적
 	private int power = 0;
 	private int intt = 0;
 	private int dex = 10;
-	private int HP = 100;
+	private int HP = 90;
 	private int Money = 1000;
 
 	public int getMoney() {
@@ -64,7 +64,8 @@ public class thief extends Hero { // 도적
 
 	@Override
 	void Attach() {
-		System.out.println("● 공격발동 : 럭키세븐🤘‍🤘");
+		RPG.Sound("ThiefAttack.wav", false);
+		System.out.println("● 공격발동 : 럭키세븐★★");
 	}
 
 }

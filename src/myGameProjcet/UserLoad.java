@@ -2,7 +2,9 @@ package myGameProjcet;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,15 +46,11 @@ public class UserLoad {
 
 		}
 
-		System.out.println("현제 가입된 유저 : " + (accountlist.size() - 1) + "명");
+		System.out.println("현제 가입된 유저 : " + (accountlist.size()) + "명");
 
 		// Map.Entry로 ID,비번 나누기 (getKey,getValue)
 		Set<Map.Entry<String, String>> entries = accountlist.entrySet();
 
-		
-		
-		
-		
 		System.out.print("ID를 입력해주세요▶");
 		user = scanner.next();
 		System.out.print("PW를 입력해주세요▶");
@@ -64,7 +62,9 @@ public class UserLoad {
 			if (entry.getKey().equals(user) && entry.getValue().equals(pw)) {
 				idpwcheck = true; // 해당 파일 자료 읽어들이고 자료 넣기
 
-				BufferedReader br2 = new BufferedReader(new FileReader(new File("user.txt")));
+				File file    =  new File("user.txt");
+				BufferedReader br2  =  new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
+				//BufferedReader br2 = new BufferedReader(new FileReader(new File("user.txt")));
 
 				str = br2.readLine();
 				while (str != null) {
@@ -109,6 +109,7 @@ public class UserLoad {
 			System.out.println();
 			System.out.println("◈ "+RPG.ID + "님 환영합니다^^ ◈");
 			System.out.println();
+			RPG.Sound("UserLogin.wav", false); //로그인 사운드
 			RPG.GamePage(); // 게임 페이지로
 		} else {
 			System.out.println("입력한 User 정보가 없거나 Pw가 일치하지 않습니다.");

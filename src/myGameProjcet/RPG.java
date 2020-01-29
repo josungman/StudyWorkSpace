@@ -1,6 +1,12 @@
 package myGameProjcet;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.util.Scanner;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class RPG {
 
@@ -19,8 +25,14 @@ public class RPG {
 	static boolean MirrorCheck = false;// 도적 분신에 필요한 변수
 	static int cnt = 0; // 도적 분신 횟수 체크
 	static boolean dispcheck = false; // 영웅 도망칠때 출력문제 해결 변수
-	
+	static String disp = null; // 접속한 던전 표시
+	static boolean Musicheck = true;
+
 	public static void main(String[] args) {
+
+		// 배경음
+		Sound("Gamebackground.wav", Musicheck);
+
 		// 게임 실행 page1으로 이동
 		run = true;
 		page1();
@@ -36,9 +48,11 @@ public class RPG {
 			System.out.println("(1).새로시작 || (2).불러오기 || (3).종료하기");
 			System.out.println();
 			System.out.println("============================================");
-			System.out.print("선택(👉)");
+			System.out.print("선택(>>)");
+
 			String input = scan.next();
 			System.out.println();
+			Sound("BtnClick.wav", false); // 버튼사운드
 
 			String tempinput = String.valueOf(input); // 입력값이 문자인지 숫자인지 체크
 			if (inputchecknum(tempinput) == false) {
@@ -90,9 +104,10 @@ public class RPG {
 			System.out.println();
 			System.out.println("=============================================");
 
-			System.out.print("선택(👉)");
+			System.out.print("선택(>>)");
 			String input2 = scan.next();
 			System.out.println();
+			Sound("BtnClick.wav", false); // 버튼사운드
 
 			String tempinput = String.valueOf(input2); // 입력값이 문자인지 숫자인지 체크
 			if (inputchecknum(tempinput) == false) {
@@ -138,13 +153,14 @@ public class RPG {
 		run = true;
 		while (run) {
 			System.out.println();
-			System.out.println("========================Heors Town======================");
+			System.out.println("===============================Heors Town===========================");
 			System.out.println();
-			System.out.println("(1).정보 || (2).던전 || (3).상점 || (4).기록 || (5).종료");
+			System.out.println("(1).정보 || (2).던전 || (3).상점 || (4).기록 || (5).대전 || (6).종료");
 			System.out.println();
-			System.out.println("========================================================");
-			System.out.print("선택(👉)");
+			System.out.println("====================================================================");
+			System.out.print("선택(>>)");
 			String input = scan.next();
+			Sound("BtnClick.wav", false); // 버튼사운드
 
 			String tempinput = String.valueOf(input); // 입력값이 문자인지 숫자인지 체크
 			if (inputchecknum(tempinput) == false) {
@@ -164,7 +180,13 @@ public class RPG {
 				System.out.println("============= ● " + ID + "님 Status ● ==========");
 				System.out.println(" ● Class : " + User.getName());
 				System.out.println();
-				System.out.println(" ● H.P : " + User.getHP());
+				// HP가 최대치일때 Max표시
+				if (User.getHP() == 650) {
+					System.out.println(" ● H.P : " + User.getHP() + "(MAX)");
+				} else {
+					System.out.println(" ● H.P : " + User.getHP());
+				}
+
 				System.out.println(" ● Pow : " + User.getPower());
 				System.out.println(" ● Int : " + User.getIntt());
 				System.out.println(" ● Dex : " + User.getDex());
@@ -191,6 +213,9 @@ public class RPG {
 				}
 				break;
 			case 5:
+				NetworkBattle();
+				break;
+			case 6:
 				exitApp();
 				break;
 			}
@@ -204,14 +229,15 @@ public class RPG {
 
 		while (run) {
 			System.out.println();
-			System.out.println("=========================Shop=======================");
+			System.out.println("==========================Shop==========================");
 			System.out.println();
-			System.out.println("(1).강화석 || (2).물약 || (3).마을로가기 || (4).종료");
+			System.out.println("(1).강화석 || (2).회복석 || (3).마을로가기 || (4).종료");
 			System.out.println();
-			System.out.println("====================================================");
+			System.out.println("========================================================");
 
-			System.out.print("선택(👉)");
+			System.out.print("선택(>>)");
 			String input = scan.next();
+			Sound("BtnClick.wav", false); // 버튼사운드
 
 			String tempinput = String.valueOf(input); // 입력값이 문자인지 숫자인지 체크
 			if (inputchecknum(tempinput) == false) {
@@ -230,15 +256,15 @@ public class RPG {
 				case 1: // 물건사기
 
 					System.out.println();
-					System.out.println("============================Buy the Stone=============================");
+					System.out.println("==========================Buy the Stone===============================");
 					System.out.println();
 					System.out.println("(1).강화석(힘) || (2).강화석(지능) || (3).강화석(민첩) || (4).뒤로가기");
 					System.out.println();
 					System.out.println("=====w100================w100===============w100======================");
-					System.out.println();
+					System.out.println("               각 영웅의 능력치를 강화 할 수 있습니다.                ");
 					System.out.println("======================================================================");
 
-					System.out.print("선택(👉)");
+					System.out.print("선택(>>)");
 					String input2 = scan.next();
 					System.out.println();
 
@@ -266,6 +292,7 @@ public class RPG {
 								User.setPower(accpower);
 								System.out.println("힘 능력치 : " + User.getPower());
 								System.out.println();
+								Sound("Stone.wav", false); // 버튼사운드
 								// 무기를 샀을때 돈 감소
 								int money = User.getMoney();
 								money -= 100;
@@ -274,12 +301,14 @@ public class RPG {
 								System.out.println("남은 자산은 : " + User.getMoney() + "Won");
 
 							} else {
+								Sound("Nope.wav", false);
 								System.out.println();
 								System.out.println("◈돈이 없습니다...");
 								System.out.println();
 							}
 
 						} else {
+							Sound("Nope.wav", false);
 							System.out.println();
 							System.out.println("◈전용 능력치가 아닙니다...");
 							System.out.println();
@@ -300,6 +329,7 @@ public class RPG {
 								User.setIntt(accpower);
 								System.out.println("지능 능력치 : " + User.getIntt());
 								System.out.println();
+								Sound("Stone.wav", false); // 버튼사운드
 								// 무기를 샀을때 돈 감소
 								int money = User.getMoney();
 								money -= 100;
@@ -308,12 +338,14 @@ public class RPG {
 								System.out.println("남은 자산은 : " + User.getMoney() + "Won");
 
 							} else {
+								Sound("Nope.wav", false);
 								System.out.println();
 								System.out.println("◈돈이 없습니다...");
 								System.out.println();
 							}
 
 						} else {
+							Sound("Nope.wav", false);
 							System.out.println();
 							System.out.println("◈전용 능력치가 아닙니다...");
 							System.out.println();
@@ -334,6 +366,7 @@ public class RPG {
 								User.setDex(accpower);
 								System.out.println("민첩 능력치 : " + User.getDex());
 								System.out.println();
+								Sound("Stone.wav", false); // 버튼사운드
 								// 무기를 샀을때 돈 감소
 								int money = User.getMoney();
 								money -= 100;
@@ -342,24 +375,52 @@ public class RPG {
 								System.out.println("남은 자산은 : " + User.getMoney() + "Won");
 
 							} else {
+								Sound("Nope.wav", false);
 								System.out.println();
 								System.out.println("◈돈이 없습니다...");
 								System.out.println();
 							}
 
 						} else {
+							Sound("Nope.wav", false);
 							System.out.println();
 							System.out.println("◈전용 능력치가 아닙니다...");
 							System.out.println();
 						}
 
 						break;
+//					case 4: // HP강화석
+//
+//						if (User.getMoney() >= 100) { // 살돈이 있는지 확인
+//							int accHP = User.getHP();
+//							accHP += 10;
+//							System.out.println();
+//							System.out.println("◈체력이 +10 증가(▲) 하였습니다.");
+//							User.setDex(accHP);
+//							Sound("Stone.wav", false); // 버튼사운드
+//
+//							// 강화석 샀을때 돈 감소
+//							int money = User.getMoney();
+//							money -= 100;
+//							User.setMoney(money);
+//
+//							System.out.println("남은 자산은 : " + User.getMoney() + "Won");
+//
+//						} else {
+//
+//							System.out.println();
+//							System.out.println("◈돈이 없습니다...");
+//							System.out.println();
+//
+//						}
+//
+//						break;
 					case 4: // 뒤로가기
+						Sound("BtnClick.wav", false); // 버튼사운드
 						shop();
 						run2 = false;
 						run = false;
 						break;
-
 					}
 
 					break;
@@ -374,10 +435,55 @@ public class RPG {
 				case 4:// 종료
 					exitApp();
 					break;
-
 				}
 			}
 		}
+	}
+
+	private static void NetworkBattle() { // 멀티 대전
+
+		System.out.println();
+		System.out.println("=============NetWork_Bettle===============");
+		System.out.println();
+		System.out.println("(1).방만들기 || (2).방입장 || (3).뒤로가기");
+		System.out.println();
+		System.out.println("==========================================");
+
+		System.out.print("선택(>>)");
+		String input = scan.next();
+		System.out.println();
+
+		String tempinput = String.valueOf(input); // 입력값이 문자인지 숫자인지 체크
+		if (inputchecknum(tempinput) == false) {
+			System.out.println();
+			System.out.println("◈ 숫자이외의 값이 들어갔습니다 다시 선택하세요.");
+			System.out.println();
+			NetworkBattle();
+		}
+
+		switch (Integer.parseInt(input)) {
+		case 1:
+			try {//서버열기
+				Server.Serverstart();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
+
+		case 2:
+			try { //클라이언트
+				Client.ClientStart();
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			GamePage();
+			break;
+		}
+
 	}
 
 	private static void Potion() { // 물약상점
@@ -385,14 +491,14 @@ public class RPG {
 		while (run) {
 
 			System.out.println();
-			System.out.println("================================Buy the Potion=============================");
+			System.out.println("============================ Restoration (Max 650HP)=============================");
 			System.out.println();
-			System.out.println("(1).초급물약(10+) || (2).중급물약(20+) || (3).고급물약(+30) || (4).뒤로가기");
+			System.out.println("(1).하급회복석(10+) || (2).중급회복석(20+) || (3).고급회복석(+30) || (4).뒤로가기");
 			System.out.println();
-			System.out.println("=======w10==================w20==================w30=======================");
-			System.out.println();
-			System.out.println("===========================================================================");
-			System.out.print("선택(👉)");
+			System.out.println("========w10==================w20=======================w30=======================");
+			System.out.println("                체력 회복 및 최대 650HP까지 강화 시킬 수 있습니다.               ");
+			System.out.println("=================================================================================");
+			System.out.print("선택(>>)");
 			String input = scan.next();
 
 			String tempinput = String.valueOf(input); // 입력값이 문자인지 숫자인지 체크
@@ -421,6 +527,7 @@ public class RPG {
 
 				break;
 			case 4:
+				Sound("BtnClick.wav", false);
 				run = false;
 				shop();
 				break;
@@ -432,27 +539,37 @@ public class RPG {
 
 	private static void Potioncheck(int hpmoney) { // 물약 체크
 
-		if (User.getMoney() >= hpmoney && User.getHP() <= 100) {
+		int AddHP = User.getHP();
+		AddHP += hpmoney;
+
+		if (AddHP >= 650) { // 물약으로 체운 HP가 맥시멈 HP를 초과할때 350까지만 채워주기
+			User.setHP(650);
+			System.out.println("◈최대 HP까지 회복 되었습니다.");
+		}
+
+		// HP 회복 모든 영웅 최대 HP 350으로 통일
+		if (User.getMoney() >= hpmoney && AddHP <= 650) {
 
 			int Money = User.getMoney();// 돈 차감
 			Money -= hpmoney;
 			User.setMoney(Money);
 
-			// HP 회복 10씩
-			int AddHP = User.getHP();
-			AddHP += hpmoney;
+//			int AddHP = User.getHP();
+//			AddHP += hpmoney;
 
 			User.setHP(AddHP);
 
 			// 정보 출력
 			System.out.println();
-			System.out.println("◈" + hpmoney + "원을 주고 물약을 샀습니다 채력" + hpmoney + "회복 됩니다.");
+			System.out.println("◈" + hpmoney + "원을 주고 회복석을 샀습니다 채력" + hpmoney + "회복 됩니다.");
 			System.out.println("\t 남은 자산 : " + User.getMoney());
 			System.out.println("\t 현제 채력 : " + User.getHP());
 			System.out.println();
+			Sound("HpStone.wav", false);
 		} else {
+			Sound("Nope.wav", false);
 			System.out.println();
-			System.out.println("◈채력이 가득차 있거나 물약을 살 돈이 없습니다...");
+			System.out.println("◈채력이 가득차 있거나 회복석을 살 돈이 없습니다...");
 			System.out.println();
 		}
 
@@ -466,12 +583,12 @@ public class RPG {
 			System.out.println();
 			System.out.println("============================Dungeon===========================");
 			System.out.println();
-			System.out.println("(1).동굴 || (2).심해 || (3).정글 || (4).마을로가기 || (5).종료");
+			System.out.println("(1).동굴 || (2).정글 || (3).심해 || (4).마을로가기 || (5).종료");
 			System.out.println();
 			System.out.println("==============================================================");
-			System.out.print("선택(👉)");
+			System.out.print("선택(>>)");
 			String input = scan.next();
-
+			Sound("BtnClick.wav", false); // 버튼사운드
 			String tempinput = String.valueOf(input); // 입력값이 문자인지 숫자인지 체크
 			if (inputchecknum(tempinput) == false) {
 				System.out.println();
@@ -481,6 +598,9 @@ public class RPG {
 			} else {
 			}
 
+			
+			MonsterAction.Monsterrun = false;
+			
 			switch (Integer.parseInt(input)) {
 			case 1: // 던전 공격 화면 구현
 				run = false;
@@ -508,18 +628,17 @@ public class RPG {
 
 	static void Attack(int location) { // 공격 화면
 		// 입장 알림
-
-		String disp = null;
 		switch (location) {
 		case 1:
 			disp = "동굴";
 			break;
 		case 2:
-			disp = "심해";
+			disp = "정글";
 
 			if (User.getPower() >= 25 || User.getIntt() >= 25 || User.getDex() >= 25) {
 				break;
 			} else {
+				Sound("Nope.wav", false);
 				System.out.println();
 				System.out.println("◈현제 능력치 부족으로 입장이 불가 합니다. 25부터 가능...");
 				System.out.println();
@@ -527,15 +646,29 @@ public class RPG {
 			}
 
 		case 3:
-			disp = "정글";
+			disp = "심해";
 			if (User.getPower() >= 35 || User.getIntt() >= 35 || User.getDex() >= 35) {
 				break;
 			} else {
+				Sound("Nope.wav", false);
+				System.out.println();
 				System.out.println("◈현제 능력치 부족으로 입장이 불가 합니다. 35부터 가능...");
+				System.out.println();
 				DungeonPage();
+			case 4:
+				disp = "심해";
+				if (User.getPower() >= 35 || User.getIntt() >= 35 || User.getDex() >= 35) {
+					break;
+				} else {
+					Sound("Nope.wav", false);
+					System.out.println();
+					System.out.println("◈현제 능력치 부족으로 입장이 불가 합니다. 35부터 가능...");
+					System.out.println();
+					DungeonPage();
 			}
 		}
 
+		System.out.println();
 		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 		System.out.println("===============================================");
 		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
@@ -547,38 +680,44 @@ public class RPG {
 		System.out.println();
 		System.out.println();
 		run = true;
-
-		// 몬스터 구현(던전에 따라 다르게)
-
+	
 		// 몬스터 쓰레드 객체 생성 및 실행
-		MonsterAction Monsteract = new MonsterAction();
 		MonsterAction.Monsterrun = true;
-		Monsteract.start();
+		MonsterAction Monsteract = new MonsterAction();
+		
+		synchronized (Monsteract) {
+				
+			Monsteract.start();
+		}
+		
 
 		while (run) {
 
-			Monsteract.interrupt();
+			//Monsteract.interrupt();
 
 			System.out.println();
 
+		
+			
 			System.out.println("=================공격화면===============");
 			System.out.println("(1).공격 || (2).특수공격 || (3).도망치기");
 			System.out.println("\t● 현제 " + User.getName() + " HP:" + User.getHP());
-			System.out.print("선택(👉)");
+			System.out.print("선택(>>)");
 			String input = scan.next();
 
 			String tempinput = String.valueOf(input); // 입력값이 문자인지 숫자인지 체크
 			if (inputchecknum(tempinput) == false) {
 				System.out.println();
-				System.out.println("◈ 숫자이외의 값이 들어갔습니다 아무일도 일어나지 않습니다.");
-				input = "0"; //문자 입력시 의미없는 숫자 넣어서 무효화 시키기
+				System.out.println("◈ 숫자이외의 값이 들어갔습니다 던전선택창으로 자동 이동합니다.");
+				input = "0"; // 문자 입력시 의미없는 숫자 넣어서 무효화 시키기
 				System.out.println();
 			} else {
 			}
 
-			if (MonsterAction.Pagecheck == true) {
-				MonsterAction.Pagecheck = false;
-				GamePage();
+			
+			if (MonsterAction.Pagecheck == true) { // 문제점발견 해결(20.01.29) 
+				MonsterAction.Pagecheck = false; // 몬스터한테 도망친후 던전 재입장시 마을로 강제 이동되는 버그 해결..
+				DungeonPage();
 			}
 
 			switch (Integer.parseInt(input)) {
@@ -656,6 +795,7 @@ public class RPG {
 					if (User.getMoney() <= 8) { // 가진 돈 확인
 
 						// 가진 돈이 빵원이면 스킬을 사용할 수 없다.
+						Sound("Nope.wav", false);
 						System.out.println();
 						System.out.println("◈돈이 부족합니다...");
 						GameMonster.setAttacknum(orignAttNum); // 몬스터 공격치 원래 대로
@@ -675,12 +815,13 @@ public class RPG {
 						System.out.println("◈스킬 발동 조건 : 8(Won)차감, " + "현제 자산: " + User.getMoney() + "(Won)");
 						System.out.println("◈특수스킬 발동 : 갑옷두르기(싸우는 몬스터 공격력이 1이 된다.)");
 						System.out.println();
-
+						Sound("Shield.wav", false);
 					}
 
 				} else if (User.getName() == "도적") {
 
 					if (MirrorCheck == true) { // 특수스킬이 적용되었는지 먼저 체크
+						Sound("Nope.wav", false);
 						System.out.println();
 						System.out.println("◈스킬이 이미 사용중입니다...");
 						System.out.println();
@@ -688,6 +829,7 @@ public class RPG {
 					}
 
 					if (User.getMoney() <= 15) {// 가진 돈 확인
+						Sound("Nope.wav", false);
 						System.out.println();
 						System.out.println("◈돈이 부족합니다...");
 						System.out.println();
@@ -701,6 +843,7 @@ public class RPG {
 					int UseHP = (int) (User.getHP() - (User.getHP() * 0.2)); // 20%
 																				// HP감소
 					User.setHP(UseHP);
+					Sound("thiefSkill.wav", false);
 					System.out.println();
 					System.out.println("◈스킬 발동 조건 : 15(Won)차감, " + "현제 자산: " + User.getMoney() + "(Won)");
 					System.out.println("◈특수스킬 발동 : 분신소환(현제체력의 20%를 깍고 유저 공격력의 20%인 분신을 소환한다.)");
@@ -710,6 +853,7 @@ public class RPG {
 				} else if (User.getName() == "법사") {
 
 					if (User.getMoney() <= 8) {// 가진 돈 확인
+						Sound("Nope.wav", false);
 						System.out.println();
 						System.out.println("◈돈이 부족합니다...");
 						System.out.println();
@@ -724,13 +868,15 @@ public class RPG {
 					UseHP = (int) (User.getHP() + MaxHP * 0.13); // 25%
 																	// HP증가
 					System.out.println();
-					if (UseHP >= 80) {
+					if (UseHP >= 650) {
+						Sound("Nope.wav", false);
 						System.out.println("◈HP가 최대 입니다...");
 						break;
 					} else {
 						User.setHP(UseHP);
+						Sound("WizardSkill.wav", false);
 						System.out.println("◈스킬 발동 조건 : 8(Won)차감, " + "현제 자산: " + User.getMoney() + "(Won)");
-						System.out.println("◈특수스킬 발동 : 물약소환(현제체력의 25%를 채운다.)" + "HP: " + User.getHP());
+						System.out.println("◈특수스킬 발동 : 체력회복(현제 체력의 25%를 채운다.)" + "HP: " + User.getHP());
 						System.out.println();
 					}
 
@@ -743,19 +889,28 @@ public class RPG {
 				if (User.getName() == "도적") { // 도적은 제외 패시브 스킬 (다크사이트)
 					System.out.println();
 					System.out.println("◈다크 싸이트!!! : 무조건 도망가기");
+
+					Sound("Move.wav", false);
 					MonsterAction.Monsterrun = false; // 몬스터 액션 스레드 종료
+					MonsterAction.Pagecheck = false;
 					run = false;
-					GamePage();
+					DungeonPage();
 				}
 
 				if (random == 1) {
 					System.out.println();
 					System.out.println("◈성공적으로 도망쳤다.");
+
+					Sound("Move.wav", false);
 					MonsterAction.Monsterrun = false; // 몬스터 액션 스레드 루프 빠져나오기
-					dispcheck = true;
+					MonsterAction.Pagecheck = false;
+					//dispcheck = true; //영웅이 도망칠때
 					run = false;
-					GamePage();
+					DungeonPage();
+					
+
 				} else {
+					Sound("Nope.wav", false);
 					System.out.println();
 					System.out.println("◈도망에 실패 하였다...");
 				}
@@ -763,10 +918,14 @@ public class RPG {
 				break;
 
 			}
+		
+		
+		
 		}
 	}
 
-	public static boolean inputchecknum(String textInput) { // 스캐너로 입력 받을시 숫자만 체크
+	// 스캐너로 입력 받을시 숫자만 체크
+	public static boolean inputchecknum(String textInput) {
 
 		char chrInput;
 
@@ -793,4 +952,37 @@ public class RPG {
 		System.out.println("=============Shut down App==============");
 		System.exit(0);
 	}
+
+	public static void Sound(String file, boolean Loop) { // 사운드 재생
+
+		// 사운드재생용메소드
+		// 메인 클래스에 추가로 메소드를 하나 더 만들었습니다.
+		// 사운드파일을받아들여해당사운드를재생시킨다.
+
+		Clip clip;
+
+		try {
+
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(new FileInputStream(file)));
+
+			clip = AudioSystem.getClip();
+
+			clip.open(ais);
+
+			clip.start();
+
+			if (Loop)
+				clip.loop(-1);
+
+			// Loop 값이true면 사운드재생을무한반복시킵니다.
+			// false면 한번만재생시킵니다.
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+
 }

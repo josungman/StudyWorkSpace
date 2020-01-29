@@ -69,12 +69,14 @@ public class Warrior extends Hero {
 	@Override
 	void Attach() {
 
-		warriorand = (int) (Math.random() * 2) + 1;
+		warriorand = (int) (Math.random() * 5) + 1;
 
 		if (warriorand == 1) {// 패시브 스킬 크리티컬 5분의 1확률
-			System.out.println("● 공격발동(패시브) : 격노🏃‍♀️🏃‍♀️");
+			System.out.println("● 공격발동(패시브) : 격노!!!");
+			RPG.Sound("격노.wav", false);
 		} else {
-			System.out.println("● 공격발동 : 휘두르기🏃‍♀️🏃‍♀️");
+			System.out.println("● 공격발동 : 휘두르기!");
+			RPG.Sound("Attack.wav", false);
 		}
 
 	}
