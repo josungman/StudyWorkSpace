@@ -22,7 +22,7 @@ public class Server {
 			socket = serverSocket.accept(); //소켓 생성 메소드 
 		
 			InetSocketAddress isa = (InetSocketAddress) socket.getRemoteSocketAddress();
-			if(serverSocket !=null) {System.out.println("외부에서 접속확인 : (" + isa.getAddress() + ")");}
+			if(serverSocket !=null) {System.out.println("상대방 접속확인 : (" + isa.getAddress() + ")");}
 			
 			Thread th1 = new SenderThread(socket); //수신
 			Thread th2 = new ReceiverThread(socket); //발신
@@ -31,9 +31,14 @@ public class Server {
 			th2.start();
 			
 			
-			//배틀장 입장 코드
+			while(true) {
+				
+				
+				
+				
+			}
 			
-			RPG.Attack(2);
+			
 			
 		} catch (Exception e) {
 			

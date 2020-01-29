@@ -463,7 +463,7 @@ public class RPG {
 
 		switch (Integer.parseInt(input)) {
 		case 1:
-			try {//서버열기
+			try {// 서버열기
 				Server.Serverstart();
 
 			} catch (Exception e) {
@@ -472,7 +472,7 @@ public class RPG {
 			break;
 
 		case 2:
-			try { //클라이언트
+			try { // 클라이언트
 				Client.ClientStart();
 			} catch (Exception e) {
 
@@ -598,9 +598,8 @@ public class RPG {
 			} else {
 			}
 
-			
 			MonsterAction.Monsterrun = false;
-			
+
 			switch (Integer.parseInt(input)) {
 			case 1: // 던전 공격 화면 구현
 				run = false;
@@ -655,17 +654,9 @@ public class RPG {
 				System.out.println("◈현제 능력치 부족으로 입장이 불가 합니다. 35부터 가능...");
 				System.out.println();
 				DungeonPage();
-			case 4:
-				disp = "심해";
-				if (User.getPower() >= 35 || User.getIntt() >= 35 || User.getDex() >= 35) {
-					break;
-				} else {
-					Sound("Nope.wav", false);
-					System.out.println();
-					System.out.println("◈현제 능력치 부족으로 입장이 불가 합니다. 35부터 가능...");
-					System.out.println();
-					DungeonPage();
+
 			}
+
 		}
 
 		System.out.println();
@@ -680,25 +671,22 @@ public class RPG {
 		System.out.println();
 		System.out.println();
 		run = true;
-	
+
 		// 몬스터 쓰레드 객체 생성 및 실행
 		MonsterAction.Monsterrun = true;
 		MonsterAction Monsteract = new MonsterAction();
-		
+
 		synchronized (Monsteract) {
-				
+
 			Monsteract.start();
 		}
-		
 
 		while (run) {
 
-			//Monsteract.interrupt();
+			// Monsteract.interrupt();
 
 			System.out.println();
 
-		
-			
 			System.out.println("=================공격화면===============");
 			System.out.println("(1).공격 || (2).특수공격 || (3).도망치기");
 			System.out.println("\t● 현제 " + User.getName() + " HP:" + User.getHP());
@@ -714,8 +702,7 @@ public class RPG {
 			} else {
 			}
 
-			
-			if (MonsterAction.Pagecheck == true) { // 문제점발견 해결(20.01.29) 
+			if (MonsterAction.Pagecheck == true) { // 문제점발견 해결(20.01.29)
 				MonsterAction.Pagecheck = false; // 몬스터한테 도망친후 던전 재입장시 마을로 강제 이동되는 버그 해결..
 				DungeonPage();
 			}
@@ -904,10 +891,9 @@ public class RPG {
 					Sound("Move.wav", false);
 					MonsterAction.Monsterrun = false; // 몬스터 액션 스레드 루프 빠져나오기
 					MonsterAction.Pagecheck = false;
-					//dispcheck = true; //영웅이 도망칠때
+					// dispcheck = true; //영웅이 도망칠때
 					run = false;
 					DungeonPage();
-					
 
 				} else {
 					Sound("Nope.wav", false);
@@ -918,9 +904,7 @@ public class RPG {
 				break;
 
 			}
-		
-		
-		
+
 		}
 	}
 
